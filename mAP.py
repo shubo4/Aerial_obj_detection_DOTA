@@ -24,7 +24,7 @@ def mean_average_precision(
     # list storing all AP for respective classes
     average_precisions = []
     wordname_15 = ['plane', 'baseball-diamond', 'bridge', 'ground-track-field', 'small-vehicle', 'large-vehicle', 'ship', 'tennis-court',
-               'basketball-court', 'storage-tank',  'soccer-ball-field', 'roundabout', 'harbor', 'swimming-pool', 'helicopter','container-crane'].
+               'basketball-court', 'storage-tank',  'soccer-ball-field', 'roundabout', 'harbor', 'swimming-pool', 'helicopter','container-crane']
     confusion_metrics = {}
     # used for numerical stability later on
     epsilon = 1e-6
