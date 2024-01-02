@@ -23,12 +23,14 @@ def mean_average_precision(
 
     # list storing all AP for respective classes
     average_precisions = []
-    labels_dict = {}
+    wordname_15 = ['plane', 'baseball-diamond', 'bridge', 'ground-track-field', 'small-vehicle', 'large-vehicle', 'ship', 'tennis-court',
+               'basketball-court', 'storage-tank',  'soccer-ball-field', 'roundabout', 'harbor', 'swimming-pool', 'helicopter','container-crane'].
     confusion_metrics = {}
     # used for numerical stability later on
     epsilon = 1e-6
 
-    for c in range(num_classes):
+    for c in range(1,num_classes):
+        print(c)
         detections = []
         ground_truths = []
 
