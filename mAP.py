@@ -111,6 +111,6 @@ def mean_average_precision(
         # torch.trapz for numerical integration
         average_precisions.append(torch.trapz(precisions, recalls))
 
-        print('class '+ wordname_15[c] +str(sum(average_precisions)/len(average_precisions)) )
+        print('class '+ wordname_15[c-1] +str(sum(average_precisions)/len(average_precisions)) )
     
     return sum(average_precisions)/len(average_precisions)
