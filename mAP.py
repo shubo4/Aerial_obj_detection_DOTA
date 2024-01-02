@@ -30,7 +30,7 @@ def mean_average_precision(
     epsilon = 1e-6
 
     for c in range(1,num_classes):
-        print(c)
+
         detections = []
         ground_truths = []
 
@@ -110,6 +110,7 @@ def mean_average_precision(
         recalls = torch.cat((torch.tensor([0]), recalls))
         # torch.trapz for numerical integration
         average_precisions.append(torch.trapz(precisions, recalls))
-    print(len(average_precisions))
+
+        print('class '+ wordname_15[c] +str(sum(average_precisions)/len(average_precisions)) )
     
     return sum(average_precisions)/len(average_precisions)
