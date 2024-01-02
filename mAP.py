@@ -23,7 +23,8 @@ def mean_average_precision(
 
     # list storing all AP for respective classes
     average_precisions = []
-
+    labels_dict = {}
+    confusion_metrics = {}
     # used for numerical stability later on
     epsilon = 1e-6
 
@@ -107,5 +108,6 @@ def mean_average_precision(
         recalls = torch.cat((torch.tensor([0]), recalls))
         # torch.trapz for numerical integration
         average_precisions.append(torch.trapz(precisions, recalls))
-
+    print(len(average_precisions))
+    
     return sum(average_precisions)/len(average_precisions)
