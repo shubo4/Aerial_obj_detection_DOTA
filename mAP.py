@@ -1,10 +1,10 @@
 import torch
 from collections import Counter
-
+import pandas as pd
 from iou import intersection_over_union
 
 def mean_average_precision(
-    pred_boxes, true_boxes, iou_threshold=0.5, box_format="midpoint", num_classes=20
+    pred_boxes, true_boxes, iou_threshold=0.5, box_format="midpoint", num_classes=20 , metric_df = False
 ):
     """
     Calculates mean average precision 
@@ -22,6 +22,7 @@ def mean_average_precision(
     """
 
     # list storing all AP for respective classes
+    metric_dict = {}
     average_precisions = []
     wordname_15 = ['plane', 'baseball-diamond', 'bridge', 'ground-track-field', 'small-vehicle', 'large-vehicle', 'ship', 'tennis-court',
                'basketball-court', 'storage-tank',  'soccer-ball-field', 'roundabout', 'harbor', 'swimming-pool', 'helicopter','container-crane']
@@ -111,6 +112,14 @@ def mean_average_precision(
         # torch.trapz for numerical integration
         average_precisions.append(torch.trapz(precisions, recalls))
 
+        metric_dict[wordname_15[c-1]] = [torch.sum(TP == 1).item(), 
+                                 torch.sum(FP == 1).item(), 
+                                 total_true_bboxes-torch.sum(TP == 1).item()]
+
         print('class '+ wordname_15[c-1] +str(sum(average_precisions)/len(average_precisions)) )
+
+    if metric_df:
+        df = pd.DataFrame.from_dict(metric_dict, orient='index', columns=['TP', 'FP', 'FN'])
+        return df, sum(average_precisions)/len(average_precisions)
     
     return sum(average_precisions)/len(average_precisions)
