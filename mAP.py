@@ -2,6 +2,8 @@ import torch
 from collections import Counter
 import pandas as pd
 from iou import intersection_over_union
+import numpy as np
+
 
 def mean_average_precision(
     pred_boxes, true_boxes, iou_threshold=0.5, box_format="midpoint", num_classes=20 , metric_df = False,
