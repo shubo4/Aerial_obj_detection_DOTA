@@ -124,7 +124,7 @@ def mean_average_precision(
 
         metric_dict[wordname_15[c-1]] = [torch.sum(TP == 1).item(), 
                                  torch.sum(FP == 1).item(), 
-                                 total_true_bboxes-torch.sum(TP == 1).item(), sum(precisions)/len(precisions),sum(recalls)/len(recalls)]
+                                 total_true_bboxes-torch.sum(TP == 1).item()]
         
         precisions = torch.cat((torch.tensor([1]), precisions))
         recalls = torch.cat((torch.tensor([0]), recalls))
@@ -135,7 +135,7 @@ def mean_average_precision(
         print('class '+ wordname_15[c-1] +str(sum(average_precisions)/len(average_precisions)) )
 
     if metric_df:
-        df_class_conf = pd.DataFrame.from_dict(metric_dict, orient='index', columns=['TP', 'FP', 'FN','precisions', 'recalls','AP'])
+        df_class_conf = pd.DataFrame.from_dict(metric_dict, orient='index', columns=['TP', 'FP', 'FN','AP'])
         df_imgs_conf = pd.DataFrame(img_metric_arr , columns=['TP', 'FP', 'GT'])
         df_imgs_conf["FN"] = df_imgs_conf["GT"] - df_imgs_conf["TP"]
         return df_class_conf, df_imgs_conf, sum(average_precisions)/len(average_precisions)
