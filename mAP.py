@@ -4,7 +4,7 @@ import pandas as pd
 from iou import intersection_over_union
 
 def mean_average_precision(
-    pred_boxes, true_boxes, iou_threshold=0.5, box_format="midpoint", num_classes=20 , metric_df = False
+    pred_boxes, true_boxes, iou_threshold=0.5, box_format="midpoint", num_classes=20 , metric_df = False,
 ):
     """
     Calculates mean average precision 
@@ -27,6 +27,14 @@ def mean_average_precision(
     wordname_15 = ['plane', 'baseball-diamond', 'bridge', 'ground-track-field', 'small-vehicle', 'large-vehicle', 'ship', 'tennis-court',
                'basketball-court', 'storage-tank',  'soccer-ball-field', 'roundabout', 'harbor', 'swimming-pool', 'helicopter','container-crane']
     confusion_metrics = {}
+    img_m = 0
+    for box in pred_boxes:
+        if box[0] >0:
+            img_m= box[0]
+
+    img_metric_arr = np.zeros((img_m+1,3))
+    
+            
     # used for numerical stability later on
     epsilon = 1e-6
 
@@ -57,7 +65,8 @@ def mean_average_precision(
         # and convert to the following (w.r.t same example):
         # ammount_bboxes = {0:torch.tensor[0,0,0], 1:torch.tensor[0,0,0,0,0]}
         for key, val in amount_bboxes.items():
-            amount_bboxes[key] = torch.zeros(val)
+            amount_bboxes[key]  = torch.zeros(val)
+            img_metric_arr[key][2] += len(val)
 
         # sort by box probabilities which is index 2
         detections.sort(key=lambda x: x[2], reverse=True)
@@ -96,13 +105,16 @@ def mean_average_precision(
                     # true positive and add this bounding box to seen
                     TP[detection_idx] = 1
                     amount_bboxes[detection[0]][best_gt_idx] = 1
+                    img_metric_arr[detection[0]][0]+=1
                 else:
                     FP[detection_idx] = 1
+                    img_metric_arr[detection[0]][1]+=1
 
             # if IOU is lower then the detection is a false positive
             else:
                 FP[detection_idx] = 1
-
+                img_metric_arr[detection[0]][1]+=1
+        
         TP_cumsum = torch.cumsum(TP, dim=0)
         FP_cumsum = torch.cumsum(FP, dim=0)
         recalls = TP_cumsum / (total_true_bboxes + epsilon)
@@ -119,7 +131,9 @@ def mean_average_precision(
         print('class '+ wordname_15[c-1] +str(sum(average_precisions)/len(average_precisions)) )
 
     if metric_df:
-        df = pd.DataFrame.from_dict(metric_dict, orient='index', columns=['TP', 'FP', 'FN'])
-        return df, sum(average_precisions)/len(average_precisions)
-    
+        df_class_conf = pd.DataFrame.from_dict(metric_dict, orient='index', columns=['TP', 'FP', 'FN'])
+        df_imgs_conf = pd.DataFrame(arr, columns=['TP', 'FP', 'GT'])
+        df_imgs_conf["FN"] = df_imgs_conf["GT"] - df_imgs_conf["TP"]
+        return df_class_conf, df_imgs_conf, sum(average_precisions)/len(average_precisions)
+        
     return sum(average_precisions)/len(average_precisions)
