@@ -134,7 +134,7 @@ def mean_average_precision(
 
     if metric_df:
         df_class_conf = pd.DataFrame.from_dict(metric_dict, orient='index', columns=['TP', 'FP', 'FN'])
-        df_imgs_conf = pd.DataFrame(arr, columns=['TP', 'FP', 'GT'])
+        df_imgs_conf = pd.DataFrame(img_metric_arr , columns=['TP', 'FP', 'GT'])
         df_imgs_conf["FN"] = df_imgs_conf["GT"] - df_imgs_conf["TP"]
         return df_class_conf, df_imgs_conf, sum(average_precisions)/len(average_precisions)
         
