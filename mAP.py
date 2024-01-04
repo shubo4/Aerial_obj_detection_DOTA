@@ -68,7 +68,7 @@ def mean_average_precision(
         # ammount_bboxes = {0:torch.tensor[0,0,0], 1:torch.tensor[0,0,0,0,0]}
         for key, val in amount_bboxes.items():
             amount_bboxes[key]  = torch.zeros(val)
-            img_metric_arr[key][2] += len(val)
+            img_metric_arr[key][2] += val
 
         # sort by box probabilities which is index 2
         detections.sort(key=lambda x: x[2], reverse=True)
