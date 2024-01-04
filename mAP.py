@@ -124,16 +124,14 @@ def mean_average_precision(
 
         metric_dict[wordname_15[c-1]] = [torch.sum(TP == 1).item(), 
                                  torch.sum(FP == 1).item(), 
-                                 total_true_bboxes-torch.sum(TP == 1).item(), precisions,recalls]
+                                 total_true_bboxes-torch.sum(TP == 1).item(), sum(precisions)/len(precisions),sum(recalls)/len(recalls)]
         
         precisions = torch.cat((torch.tensor([1]), precisions))
         recalls = torch.cat((torch.tensor([0]), recalls))
         # torch.trapz for numerical integration
         average_precisions.append(torch.trapz(precisions, recalls))
 
-        metric_dict[wordname_15[c-1]].append(average_precisions)
-        
-
+        metric_dict[wordname_15[c-1]].append(sum(average_precisions)/len(average_precisions))
         print('class '+ wordname_15[c-1] +str(sum(average_precisions)/len(average_precisions)) )
 
     if metric_df:
