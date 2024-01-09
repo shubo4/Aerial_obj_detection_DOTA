@@ -122,8 +122,8 @@ def mean_average_precision(
         recalls = TP_cumsum / (total_true_bboxes + epsilon)
         precisions = TP_cumsum / (TP_cumsum + FP_cumsum + epsilon)
 
-        metric_dict[wordname_15[c-1]] = [torch.sum(TP == 1).item(), 
-                                 torch.sum(FP == 1).item(), 
+        metric_dict[wordname_15[c-1]] = [torch.sum(TP_cumsum == 1).item(), 
+                                 torch.sum(FP_cumsum == 1).item(), 
                                  total_true_bboxes-torch.sum(TP == 1).item()]
         
         precisions = torch.cat((torch.tensor([1]), precisions))
@@ -136,8 +136,12 @@ def mean_average_precision(
 
     if metric_df:
         df_class_conf = pd.DataFrame.from_dict(metric_dict, orient='index', columns=['TP', 'FP', 'FN','AP'])
+        df_class_conf["precision"] = df_class_conf['TP']/(df_class_conf['TP']+ df_class_conf['FP'] + epsilon)
+        df_class_conf["recall"] = df_class_conf['TP']/(df_class_conf['TP']+ df_class_conf['FN'] + epsilon)
         df_imgs_conf = pd.DataFrame(img_metric_arr , columns=['TP', 'FP', 'GT'])
         df_imgs_conf["FN"] = df_imgs_conf["GT"] - df_imgs_conf["TP"]
+        df_imgs_conf["precision"] = df_imgs_conf['TP']/(df_imgs_conf['TP']+ df_imgs_conf['FP'] + epsilon)
+        df_imgs_conf["recall"]    = df_imgs_conf['TP']/(df_imgs_conf['TP']+ df_imgs_conf['FN'] + epsilon)
         return df_class_conf, df_imgs_conf, sum(average_precisions)/len(average_precisions)
         
     return sum(average_precisions)/len(average_precisions)
