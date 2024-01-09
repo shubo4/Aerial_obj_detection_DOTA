@@ -323,7 +323,7 @@ class RetinaNetRegressionHead(nn.Module):
         return torch.cat(all_bbox_regression, dim=1)
 
 
-class RetinaNet(nn.Module):
+class RetinaNet_(nn.Module):
     __annotations__ = {
             "box_coder": det_utils.BoxCoder,
             "proposal_matcher": det_utils.Matcher,
