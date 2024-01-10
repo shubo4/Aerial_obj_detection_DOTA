@@ -73,6 +73,8 @@ class RetinaNet_(nn.Module):
         self,
         backbone,
         num_classes,
+        min_size=800,
+        max_size=1333,
         # transform parameters
         image_mean=None,
         image_std=None,
