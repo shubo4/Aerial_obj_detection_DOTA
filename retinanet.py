@@ -26,7 +26,7 @@ from torchvision.models.detection.retinanet import RetinaNetHead,RetinaNetClassi
 
 class RetinaNetHead_(RetinaNetHead):
   
-  def __init__(self, in_channels, num_anchors, num_classes, norm_layer: Optional[Callable[..., nn.Module]] = None, alpha):
+  def __init__(self, in_channels, num_anchors, num_classes, alpha, norm_layer: Optional[Callable[..., nn.Module]] = None):
       super().__init__(self, in_channels, num_anchors, num_classes,norm_layer: Optional[Callable[..., nn.Module]] = None)
     
       self.classification_head = Rhead(in_channels, num_anchors, num_classes, norm_layer=norm_layer, alpha)
