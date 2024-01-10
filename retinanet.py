@@ -29,7 +29,7 @@ class RetinaNetHead_(RetinaNetHead):
   def __init__(self, in_channels, num_anchors, num_classes, alpha, norm_layer= None):
       super(RetinaNetHead_,self).__init__(in_channels, num_anchors, num_classes, norm_layer= None)
     
-      self.classification_head = Rhead(in_channels, num_anchors, num_classes, norm_layer=norm_layer, alpha)
+      self.classification_head = Rhead(in_channels, num_anchors, num_classes, alpha, norm_layer=norm_layer)
       self.regression_head = RetinaNetRegressionHead(in_channels, num_anchors, norm_layer=norm_layer)
 
 
