@@ -34,8 +34,8 @@ class RetinaNetHead_(RetinaNetHead):
 
 
 class Rhead(RetinaNetClassificationHead):
-  def __init__(self, in_channels,num_anchors,num_classes,prior_probability=0.01,alpha=0.75):
-    super(Rhead,self).__init__(in_channels,num_anchors,num_classes,prior_probability=0.01)
+  def __init__(self, in_channels,num_anchors,num_classes,prior_probability=0.01,alpha=0.75,norm_layer=None):
+    super(Rhead,self).__init__(in_channels,num_anchors,num_classes,prior_probability=0.01,norm_layer=None)
 
     self.alpha = alpha
     def compute_loss(self, targets, head_outputs, matched_idxs):
