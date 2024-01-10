@@ -110,7 +110,7 @@ class RetinaNet_(nn.Module):
         self.anchor_generator = anchor_generator
 
         if head is None:
-            head = Rhead(backbone.out_channels, anchor_generator.num_anchors_per_location()[0], num_classes)
+            head =  RetinaNetClassificationHead(backbone.out_channels, anchor_generator.num_anchors_per_location()[0], num_classes)
         self.head = head
 
         if proposal_matcher is None:
