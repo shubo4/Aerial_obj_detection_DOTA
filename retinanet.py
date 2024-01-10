@@ -281,7 +281,7 @@ class RetinaNet_(nn.Module):
                     )
 
 #         # Converting tuple of images in single tensor representing a batch
-        image_batch = model.transform.batch_images(images)
+        image_batch = self.transform.batch_images(images)
 
 #         # Create an ImageList
         images = ImageList(image_batch, [(image.shape[-2], image.shape[-1]) for image in images])
