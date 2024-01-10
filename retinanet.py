@@ -22,12 +22,22 @@ from torchvision.models.detection._utils import _box_loss, overwrite_eps
 from torchvision.models.detection.anchor_utils import AnchorGenerator
 from torchvision.models.detection.backbone_utils import _resnet_fpn_extractor, _validate_trainable_layers
 from torchvision.models.detection.transform import GeneralizedRCNNTransform
-from torchvision.models.detection.retinanet import RetinaNetClassificationHead
+from torchvision.models.detection.retinanet import RetinaNetHead,RetinaNetClassificationHead,RetinaNetRegressionHead
+
+class RetinaNetHead_(RetinaNetHead):
+  
+  def __init__(self, in_channels, num_anchors, num_classes, norm_layer: Optional[Callable[..., nn.Module]] = None, alpha):
+      super().__init__(self, in_channels, num_anchors, num_classes,norm_layer: Optional[Callable[..., nn.Module]] = None)
+    
+      self.classification_head = Rhead(in_channels, num_anchors, num_classes, norm_layer=norm_layer, alpha)
+      self.regression_head = RetinaNetRegressionHead(in_channels, num_anchors, norm_layer=norm_layer)
+
 
 class Rhead(RetinaNetClassificationHead):
-  def __init__(self, in_channels,num_anchors,num_classes,prior_probability=0.01):
+  def __init__(self, in_channels,num_anchors,num_classes,prior_probability=0.01,alpha=0.75):
     super(Rhead,self).__init__(in_channels,num_anchors,num_classes,prior_probability=0.01)
 
+    self.alpha = alpha
     def compute_loss(self, targets, head_outputs, matched_idxs):
       losses = []
 
@@ -54,7 +64,7 @@ class Rhead(RetinaNetClassificationHead):
               sigmoid_focal_loss(
                   cls_logits_per_image[valid_idxs_per_image],
                   gt_classes_target[valid_idxs_per_image],
-                  alpha = 0.75,
+                  alpha = self.alpha,
                   reduction="sum",
               )
               / max(1, num_foreground)
@@ -87,6 +97,7 @@ class RetinaNet_(nn.Module):
         fg_iou_thresh=0.5,
         bg_iou_thresh=0.4,
         topk_candidates=1000,
+        alpha = 0.75
         **kwargs,
     ):
         super().__init__()
@@ -110,9 +121,9 @@ class RetinaNet_(nn.Module):
         self.anchor_generator = anchor_generator
 
         if head is None:
-            head =  RetinaNetClassificationHead(backbone.out_channels, anchor_generator.num_anchors_per_location()[0], num_classes)
+            head =  RetinaNetHead_(backbone.out_channels, anchor_generator.num_anchors_per_location()[0], num_classes, alpha)
         self.head = head
-
+        
         if proposal_matcher is None:
             proposal_matcher = det_utils.Matcher(
                 fg_iou_thresh,
@@ -133,6 +144,7 @@ class RetinaNet_(nn.Module):
         self.nms_thresh = nms_thresh
         self.detections_per_img = detections_per_img
         self.topk_candidates = topk_candidates
+        self.alpha = alpha  # FocalLoss imbalance control 
 
         # used only on torchscript mode
         self._has_warned = False
