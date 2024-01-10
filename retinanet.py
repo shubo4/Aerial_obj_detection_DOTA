@@ -29,7 +29,7 @@ class Rhead(RetinaNetClassificationHead):
     super(Rhead,self).__init__(in_channels,num_anchors,num_classes,prior_probability=0.01)
     self.alpha = alpha
 
-    def compute_loss(self, targets, head_outputs, matched_idxs,alpha=self.alpha):
+    def compute_loss(self, targets, head_outputs, matched_idxs):
       losses = []
 
       cls_logits = head_outputs["cls_logits"]
@@ -55,7 +55,7 @@ class Rhead(RetinaNetClassificationHead):
               sigmoid_focal_loss(
                   cls_logits_per_image[valid_idxs_per_image],
                   gt_classes_target[valid_idxs_per_image],
-                  alpha = alpha,
+                  alpha = self.alpha,
                   reduction="sum",
               )
               / max(1, num_foreground)
