@@ -25,9 +25,8 @@ from torchvision.models.detection.transform import GeneralizedRCNNTransform
 from torchvision.models.detection.retinanet import RetinaNetClassificationHead
 
 class Rhead(RetinaNetClassificationHead):
-  def __init__(self, in_channels,num_anchors,num_classes,prior_probability=0.01,alpha =0.75):
+  def __init__(self, in_channels,num_anchors,num_classes,prior_probability=0.01):
     super(Rhead,self).__init__(in_channels,num_anchors,num_classes,prior_probability=0.01)
-    self.alpha = alpha
 
     def compute_loss(self, targets, head_outputs, matched_idxs):
       losses = []
@@ -55,7 +54,7 @@ class Rhead(RetinaNetClassificationHead):
               sigmoid_focal_loss(
                   cls_logits_per_image[valid_idxs_per_image],
                   gt_classes_target[valid_idxs_per_image],
-                  alpha = self.alpha,
+                  alpha = 0.75,
                   reduction="sum",
               )
               / max(1, num_foreground)
@@ -111,7 +110,7 @@ class RetinaNet_(nn.Module):
         self.anchor_generator = anchor_generator
 
         if head is None:
-            head = Rhead(backbone.out_channels, anchor_generator.num_anchors_per_location()[0], num_classes,prior_probability=0.01,alpha =0.75)
+            head = Rhead(backbone.out_channels, anchor_generator.num_anchors_per_location()[0], num_classes)
         self.head = head
 
         if proposal_matcher is None:
