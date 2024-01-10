@@ -97,7 +97,7 @@ class RetinaNet_(nn.Module):
         fg_iou_thresh=0.5,
         bg_iou_thresh=0.4,
         topk_candidates=1000,
-        alpha = 0.75
+        alpha = 0.75,
         **kwargs,
     ):
         super().__init__()
