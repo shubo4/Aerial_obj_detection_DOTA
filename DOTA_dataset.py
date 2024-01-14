@@ -9,6 +9,9 @@ import torch
 import albumentations as A
 import random
 
+def box_resize(box,w,h):
+    x1,y1,x2,y2 = box[0]*w, box[1]*h, box[2]*w, box[3]*h
+    return np.array([x1,y1,x2,y2])
 
 class CustomCocoDataset(CocoDetection):
     def __init__(self, root, annFile, data_type = 'train',crop_height=2048,crop_width = 2048):
@@ -98,3 +101,4 @@ class CustomCocoDataset(CocoDetection):
             target['image_id'] = torch.tensor(index)
             
             return image, target
+
