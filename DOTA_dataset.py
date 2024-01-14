@@ -13,6 +13,10 @@ def box_resize(box,w,h):
     x1,y1,x2,y2 = box[0]*w, box[1]*h, box[2]*w, box[3]*h
     return np.array([x1,y1,x2,y2])
 
+def custom_collate(batch):
+    images, targets = zip(*batch)
+    return images, targets
+
 class CustomCocoDataset(CocoDetection):
     def __init__(self, root, annFile, data_type = 'train',crop_height=2048,crop_width = 2048):
         super(CustomCocoDataset, self).__init__(root, annFile)
