@@ -76,6 +76,8 @@ def train(model, train_loader, val_loader ,experiment ,num_epochs, val_freq, loa
             
               # Log other metrics if needed
           experiment.log_metric("Batch Loss", loss.item(), step=(epoch * len(train_loader) + batch_idx))
+          experiment.log_metric("Classification Loss", outputs[list(outputs.keys())[0]], step=(epoch * len(train_loader) + batch_idx))
+          experiment.log_metric("Regression Loss", outputs[list(outputs.keys())[1]], step=(epoch * len(train_loader) + batch_idx))
           # Log GPU memory usage to Comet.ml (optional)
           experiment.log_metric("GPU Memory Allocated (MB)", torch.cuda.memory_allocated() / (1024**2),
                                 step=(epoch * len(train_loader) + batch_idx))
