@@ -40,6 +40,7 @@ On commet I have logged Batch Loss, BBox Regression Loss, BBox Classification lo
 On comet project workspace in items and artifacts of specific experiment you will have 3 dataframes stored. One with class confusion matrices and AP.   
 Second with all Images confusion matrices and AP.  Third with mAP forspecified ious. 
    
-<img width="185" alt="Screenshot 2024-01-15 at 10 04 43 PM" src="https://github.com/shubo4/Aerial_obj_detection_DOTA/assets/90241581/4108d0fb-a453-422a-810f-22b3a1060080">
+<img width="185" alt="Screenshot 2024-01-15 at 10 04 43 PM" src="https://github.com/shubo4/Aerial_obj_detection_DOTA/assets/90241581/4108d0fb-a453-422a-810f-22b3a1060080">  
 
+<img width="335" alt="Screenshot 2024-01-15 at 10 45 51 PM" src="https://github.com/shubo4/Aerial_obj_detection_DOTA/assets/90241581/93678ea6-ffd0-4e05-a65d-7aa1995350e3">
 
