@@ -1,4 +1,3 @@
-
 import numpy as np
 import pandas as pd
 import torch
@@ -90,8 +89,9 @@ def train(model, train_loader, val_loader ,experiment ,num_epochs, val_freq, loa
                       'optimizer_state_dict': optimizer.state_dict(),
                   }, 'checkpoint_state_dicts.pth')
       lr_scheduler.step()
-
-    experiment.end()
+      if (epoch+1) == num_epochs:
+        experiment.end()
+  
 
 def validate(model,loader,epoch,experiment,model_checkpoint=None):
 
