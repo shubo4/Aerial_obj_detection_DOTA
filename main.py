@@ -89,7 +89,7 @@ def train(model, train_loader, val_loader ,experiment ,num_epochs, val_freq, loa
                       'model_state_dict': model.state_dict(),
                       'optimizer_state_dict': optimizer.state_dict(),
                   }, 'checkpoint_state_dicts.pth')
-    lr_scheduler.step()
+      lr_scheduler.step()
 
     experiment.end()
 
