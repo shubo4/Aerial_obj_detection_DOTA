@@ -41,6 +41,17 @@ On comet project workspace in items and artifacts of specific experiment you wil
 Second with all Images confusion matrices and AP.  Third with mAP forspecified ious. 
    
 <img width="185" alt="Screenshot 2024-01-15 at 10 04 43 PM" src="https://github.com/shubo4/Aerial_obj_detection_DOTA/assets/90241581/4108d0fb-a453-422a-810f-22b3a1060080">  
-
+    
 <img width="335" alt="Screenshot 2024-01-15 at 10 45 51 PM" src="https://github.com/shubo4/Aerial_obj_detection_DOTA/assets/90241581/93678ea6-ffd0-4e05-a65d-7aa1995350e3">
+  
 
+
+## Further work:
+As given in (repo of dota-retiannet) they use resnet-50 backbone which is 146MB. We used mobile-net_v2_large which is 21MB. Our mAP is 17.7 and which is significantly less than Resnet 
+accuracy. Goal is to try and close this gap. 
+
+Ground Truth:
+<img width="544" alt="Screenshot 2024-01-16 at 10 20 17 AM" src="https://github.com/shubo4/Aerial_obj_detection_DOTA/assets/90241581/3178519f-73c5-4627-9e0f-3f6bbf7701ec">
+
+Prediction:
+<img width="547" alt="Screenshot 2024-01-16 at 10 17 39 AM" src="https://github.com/shubo4/Aerial_obj_detection_DOTA/assets/90241581/18bc7943-c5e6-48b3-be9c-aa07108f8d15">
