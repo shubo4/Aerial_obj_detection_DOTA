@@ -20,7 +20,7 @@ wordname_15 = ['plane', 'baseball-diamond', 'bridge', 'ground-track-field', 'sma
 ## labelparent -- Path to directory containing annotation text files
 
 ## You put split_type ="train" once and split_type="val" other time. And train it will create two josn files for you by creating train-test split of 80-20
-def DOTA2COCO(destfile, split_type = 'train' , split_major =0.8,imageparent,labelparent ):
+def DOTA2COCO(destfile, imageparent, labelparent, split_type = 'train' , split=0.8):
     data_dict = {}
     info = {'contributor': 'captain group',
            'data_created': '2018',
@@ -42,9 +42,9 @@ def DOTA2COCO(destfile, split_type = 'train' , split_major =0.8,imageparent,labe
         
         filenames = util.GetFileFromThisRootDir(labelparent)
         if split_type=='train':
-            filenames = sorted(filenames)[:int(split_major* len(filenames))]
+            filenames = sorted(filenames)[:int(split* len(filenames))]
         elif split_type=='val':
-            filenames = sorted(filenames)[int(split_major*len(filenames)):]
+            filenames = sorted(filenames)[-int(split*len(filenames)):]
             
         for file in sorted(filenames):
             basename = util.custombasename(file)
