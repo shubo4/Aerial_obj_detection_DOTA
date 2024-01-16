@@ -48,7 +48,7 @@ Second with all Images confusion matrices and AP.  Third with mAP forspecified i
 
 ## Further work:
 As given in (repo of dota-retiannet) they use resnet-50 backbone which is 146MB. We used mobile-net_v2_large which is 21MB. Our mAP is 17.7 and which is significantly less than Resnet 
-accuracy. Goal is to try and close this gap. 
+accuracy. Goal is to try and close this gap. Below image shows the model is missing the ibjects with very small size. 
 
 Prediction:
 <img width="544" alt="Screenshot 2024-01-16 at 10 20 17 AM" src="https://github.com/shubo4/Aerial_obj_detection_DOTA/assets/90241581/3178519f-73c5-4627-9e0f-3f6bbf7701ec">
