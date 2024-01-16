@@ -184,11 +184,13 @@ if __name__ == '__main__':
 
 ## Loading Model
     if args.backbone== "large":
-      backbone.out_channels = 960
       backbone = torchvision.models.mobilenet_v3_large(weights='DEFAULT').features
+      backbone.out_channels = 960
+      
     elif args.backbone == "small":
-      backbone.out_channels = 576
       backbone = torchvision.models.mobilenet_v3_small(weights='DEFAULT').features
+      backbone.out_channels = 576
+      
       
     anchor_generator = AnchorGenerator(
     sizes=((4,8,16,32,64),),
